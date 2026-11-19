@@ -1,5 +1,6 @@
 using Goblfin;
 using Runtime.Project.Scripts.Core;
+using UnityEngine;
 
 namespace Project.Scripts.Core.ElementSysteme.RunTime.ElementState
 {
@@ -7,15 +8,20 @@ namespace Project.Scripts.Core.ElementSysteme.RunTime.ElementState
 	{
 		public void Enter(ElementSimulation element)
 		{
-			element.hot.Play();
+			Debug.Log("Entered HotState");
+			element.vfxManager.VfxState(VFXManager.States.smoke);
 		}
 
 		public void Update(ElementSimulation element)
 		{
-			if (element.Heat > element.ElementData.Burn)
+			if (element.Heat > element.ElementData.GoBurnState)
 			{
-				element.hot.Stop();
 				element.ChangeState(new BurningState());
+			}
+
+			if (element.Heat <= element.ElementData.GoHotState)
+			{
+				element.ChangeState(new NormalState());
 			}
 		}
 

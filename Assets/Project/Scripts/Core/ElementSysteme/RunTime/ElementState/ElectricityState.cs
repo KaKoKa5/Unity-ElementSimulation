@@ -1,32 +1,48 @@
 using Goblfin;
+using Runtime.Project.Scripts.Core;
 using UnityEngine;
 
-namespace Runtime.Project.Scripts.Core
+namespace Project.Scripts.Core.ElementSysteme.RunTime.ElementState
 {
-	public class ElectricityState : IElementState
-	{
-		private bool isElectrifing = false;
-		public void Enter(ElementSimulation element)
-		{
-		}
+    public class ElectricityState : IElementState
+    {
+        private const float PropagationInterval = 0.1f;
+        private float nextPropagationTime;
+        private bool isElectrifying;
 
-		public void Update(ElementSimulation element)
-		{
-			element.ElectricityPropagation();
-			if (element.Electricity >= element.ElementData.Electrify)
-			{
-				isElectrifing = true;
-				element.ElectricityPropagation();
-			}
-			else
-				isElectrifing = false;
+        public void Enter(ElementSimulation element)
+        {
+            Debug.Log("Electricity State");
+            nextPropagationTime = Time.time;
+            element.vfxManager?.VfxState(VFXManager.States.electric);
+        }
 
-			if (isElectrifing && element.Humidity > 50f)
-				element.AddHeat(5 * Time.deltaTime);
-		}
+        public void Update(ElementSimulation element)
+        {
+            if (element.Electricity <= element.ElementData.Electrify)
+            {
+                element.ChangeState(new NormalState());
+                return;
+            }
 
-		public void Exit(ElementSimulation element)
-		{
-		}
-	}
+            isElectrifying = element.Electricity >= element.ElementData.Electrify;
+
+            if (Time.time >= nextPropagationTime)
+            {
+                nextPropagationTime = Time.time + PropagationInterval;
+                element.ElectricityPropagation();
+            }
+
+            if (isElectrifying && element.Humidity > 50f)
+            {
+                element.AddHeat(5f * Time.deltaTime);
+            }
+        }
+
+        public void Exit(ElementSimulation element)
+        {
+            isElectrifying = false;
+            element.vfxManager?.VfxState(VFXManager.States.normal);
+        }
+    }
 }

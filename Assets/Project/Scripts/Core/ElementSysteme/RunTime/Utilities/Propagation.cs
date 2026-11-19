@@ -1,6 +1,6 @@
-using Runtime.Project.Scripts.Core;
+using Goblfin;
 
-namespace Goblfin
+namespace Project.Scripts.Core.ElementSysteme.RunTime.Utilities
 {
 	public static class Propagation<T> where T : struct, IElementChannel 
 	{

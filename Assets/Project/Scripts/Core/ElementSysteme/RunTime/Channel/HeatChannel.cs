@@ -1,3 +1,6 @@
+using Project.Scripts.Core.ElementSysteme.RunTime;
+using Project.Scripts.Core.ElementSysteme.RunTime.Data;
+
 namespace Goblfin
 {
 	public struct HeatChannel : IElementChannel

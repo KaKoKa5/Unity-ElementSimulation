@@ -1,4 +1,5 @@
 using Goblfin;
+using Project.Scripts.Core.ElementSysteme.RunTime;
 using UnityEngine;
 
 namespace Runtime.Project.Scripts.Core
@@ -9,8 +10,7 @@ namespace Runtime.Project.Scripts.Core
 
 		private void OnTriggerStay(Collider other)
 		{
-			ElementSimulation elementSimulation = other.GetComponent<ElementSimulation>();
-
+			ElementSimulation elementSimulation = other.GetComponentInChildren<ElementSimulation>();
 			if (elementSimulation != null)
 			{
 				elementSimulation.AddElectricity(electricityPerSecond*Time.deltaTime);

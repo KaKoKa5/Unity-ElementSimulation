@@ -1,15 +1,15 @@
 using System.Collections.Generic;
-using Goblfin;
+using Runtime.Project.Scripts.Core;
 using UnityEngine;
 
-namespace Runtime.Project.Scripts.Core
+namespace Project.Scripts.Core.ElementSysteme.RunTime
 {
     public class ElementChain : ElementInfo
     {
         public List<ElementSimulation> neighbours = new List<ElementSimulation>();
         private void OnTriggerEnter(Collider other)
         {
-            ElementSimulation element = other.GetComponent<ElementSimulation>();
+            ElementSimulation element = other.GetComponentInChildren<ElementSimulation>();
 
             if (element != null && !neighbours.Contains(element))
             {
@@ -19,7 +19,7 @@ namespace Runtime.Project.Scripts.Core
         }
         private void OnTriggerExit(Collider other)
         {
-            ElementSimulation element = other.GetComponent<ElementSimulation>();
+            ElementSimulation element = other.GetComponentInChildren<ElementSimulation>();
 
             if (element != null)
             {

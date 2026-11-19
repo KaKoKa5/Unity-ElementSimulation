@@ -1,8 +1,11 @@
 using System.Collections.Generic;
+using Goblfin;
+using Project.Scripts.Core.ElementSysteme.RunTime.Data;
+using Project.Scripts.Core.ElementSysteme.RunTime.Utilities;
 using Runtime.Project.Scripts.Core;
 using UnityEngine;
 
-namespace Goblfin
+namespace Project.Scripts.Core.ElementSysteme.RunTime
 {
 	public class ElementSimulation : MonoBehaviour
 	{
@@ -15,14 +18,12 @@ namespace Goblfin
 		[field:SerializeField] public float Heat{ get; set; }
 		[field:SerializeField] public float Humidity{ get; set; }
 		[field:SerializeField] public float Electricity{ get; set; }
-
-		public ParticleSystem hot;
-		public ParticleSystem burn;
 		
 		private float currentDegrees;
 		public IElementState CurrentState { get; private set; }
 		[Header("References")]
 		[SerializeField] private GameObject root;
+		[field:SerializeField] public VFXManager  vfxManager;
 		public GameObject Root
 		{
 			get
@@ -56,8 +57,6 @@ namespace Goblfin
 
 		public void Start()
 		{
-			hot.Stop();
-			burn.Stop();
 			ResetSimulation();
 		}
 
@@ -65,8 +64,8 @@ namespace Goblfin
 
 		private void ResetSimulation()
 		{
-			Heat = 100f;
-			Humidity = 0f;
+			Heat = ElementData.AverageDegree;
+			Humidity = 0;
 			Electricity = 0f;
 			ChangeState(new NormalState());
 		}
@@ -79,7 +78,7 @@ namespace Goblfin
 			if(Heat <= 0.2f)
 				return;
 			
-			//LogicWeather();
+			LogicWeather();
 		}
 		
 		public void ChangeState(IElementState state)
@@ -90,14 +89,8 @@ namespace Goblfin
 		}
 		private void LogicWeather()
 		{
-			float ambientHeat = 0f;       
-			float ambientHumidity = 0f;      
-    
-			float coolingRate = 5f;
-			float dryingRate = 2f;
-
-			Heat = Mathf.MoveTowards(Heat, ambientHeat, coolingRate * Time.deltaTime);
-			Humidity = Mathf.MoveTowards(Humidity, ambientHumidity, dryingRate * Time.deltaTime);
+			Heat = Mathf.MoveTowards(Heat, ElementData.AverageDegree, Time.deltaTime / 2);
+			Humidity = Mathf.MoveTowards(Humidity, 0, Time.deltaTime / 2);
 			
 			float targetDegrees = ElementData.AverageDegree + Heat - (Humidity * 0.1f);
 			currentDegrees = Mathf.MoveTowards(currentDegrees, targetDegrees, 10f * Time.deltaTime);
@@ -116,10 +109,9 @@ namespace Goblfin
 			if (Heat < 0.1f)
 				Heat = 0f;
 
-			if (Electricity > 0f)
+			if (Electricity >= 0.1f)
 			{
-				float conductivity = Mathf.Max(0.01f, ElementData.ElectricalConduct);
-				Electricity -= (1f / conductivity) * dt;
+				Electricity -= 2 * dt;
 
 				if (Electricity < 0.1f)
 					Electricity = 0f;

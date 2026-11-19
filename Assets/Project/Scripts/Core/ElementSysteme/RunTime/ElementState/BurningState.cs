@@ -1,3 +1,6 @@
+using Project.Scripts.Core.ElementSysteme;
+using Project.Scripts.Core.ElementSysteme.RunTime;
+using Project.Scripts.Core.ElementSysteme.RunTime.ElementState;
 using Runtime.Project.Scripts.Core;
 using UnityEngine;
 
@@ -9,7 +12,7 @@ namespace Goblfin
 		public void Enter(ElementSimulation element)
 		{
 			Debug.Log("Entering BurningState");
-			element.burn.Play();
+			element.vfxManager.VfxState(VFXManager.States.fire);
 			currentHealth = element.GetInfo<Health>();
 			currentHealth.SetDeathVisual(DeathVisual.Burned);
 			ProblemRegistry.RegisterProblem(element, TypeOfProblem.Burn);
@@ -17,19 +20,18 @@ namespace Goblfin
 
 		public void Update(ElementSimulation element)
 		{
-			currentHealth.TakeDamageEnv(element.ElementData.HitPower);
+			currentHealth.TakeDamageEnv(element.ElementData.FireHitPower);
 			element.FirePropagation();
-			if (element.Heat <= 0.1f)
+			if (element.Heat <= element.ElementData.GoBurnState)
 			{
-				ProblemRegistry.UnregisterProblem(element,TypeOfProblem.Burn);
-				element.ChangeState(new NormalState());
+				
+				element.ChangeState(new HotState());
 			}
 		}
 
 		public void Exit(ElementSimulation element)
 		{
-			ProblemRegistry.UnregisterProblem(element,TypeOfProblem.Burn);
-			element.burn.Stop();
+			
 		}
 	}
 }

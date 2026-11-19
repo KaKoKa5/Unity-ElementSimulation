@@ -1,3 +1,5 @@
+using Project.Scripts.Core.ElementSysteme;
+using Project.Scripts.Core.ElementSysteme.RunTime;
 using Project.Scripts.Core.ElementSysteme.RunTime.ElementState;
 using Runtime.Project.Scripts.Core;
 using UnityEngine;
@@ -11,16 +13,18 @@ namespace Goblfin
 	    
         public void Enter(ElementSimulation element)
         {
+            element.vfxManager.VfxState(VFXManager.States.normal);
+            ProblemRegistry.UnregisterProblem(element,TypeOfProblem.Burn);
         }
 
         public void Update(ElementSimulation element)
         {
-            if (element.Heat > element.ElementData.Hot)
+            if (element.Heat > element.ElementData.GoHotState)
             {
                 element.ChangeState(new HotState());
             }
             
-            if (element.Humidity > element.ElementData.Frozen)
+            if (element.Humidity > element.ElementData.GoFrozenState)
             {
                 if (!element.ElementData.IsLiquid)
                 {
@@ -28,6 +32,8 @@ namespace Goblfin
                 }
                 element.ChangeState(new FrozenState());
             }
+            if (element.Electricity > element.ElementData.Electrify)
+                element.ChangeState(new ElectricityState());
         }
 
         public void Exit(ElementSimulation element)

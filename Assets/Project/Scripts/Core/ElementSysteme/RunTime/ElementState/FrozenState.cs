@@ -1,3 +1,4 @@
+using Project.Scripts.Core.ElementSysteme.RunTime;
 using Runtime.Project.Scripts.Core;
 
 namespace Goblfin
@@ -7,12 +8,10 @@ namespace Goblfin
 		private Health currentHealth;
 		public void Enter(ElementSimulation element)
 		{
-			//currentHealth.SetDeathVisual(DeathVisual.Frozen);
 		}
 
 		public void Update(ElementSimulation element)
 		{
-			element.AddHumidity(1);
 			
 			if (element.Heat > 5f)
 			{
