@@ -32,7 +32,7 @@ namespace Goblfin
                 }
                 element.ChangeState(new FrozenState());
             }
-            if (element.Electricity > element.ElementData.Electrify)
+            if (element.Electricity > element.ElementData.GoElectrifyState)
                 element.ChangeState(new ElectricityState());
         }
 

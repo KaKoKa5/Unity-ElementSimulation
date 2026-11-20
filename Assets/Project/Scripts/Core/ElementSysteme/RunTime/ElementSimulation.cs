@@ -116,6 +116,8 @@ namespace Project.Scripts.Core.ElementSysteme.RunTime
 				if (Electricity < 0.1f)
 					Electricity = 0f;
 			}
+			if (Electricity < 0.1f)
+				Electricity = 0f;
 
 			Heat = Mathf.Clamp(Heat, 0f, 100f);
 			Humidity = Mathf.Clamp(Humidity, 0f, 100f);

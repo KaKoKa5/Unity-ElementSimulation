@@ -24,7 +24,7 @@ namespace Project.Scripts.Core.ElementSysteme.RunTime.Data
         [field:SerializeField]public float EvaporationSpeed{ get; private set; }
         
         [Header("Influence Electricity")]
-        [field:SerializeField] public float Electrify{ get; private set; }
+        [field:SerializeField] public float GoElectrifyState{ get; private set; }
         [field:SerializeField]public float ElectricalConduct{ get; private set; }
 
         

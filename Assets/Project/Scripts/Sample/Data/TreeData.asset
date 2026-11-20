@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Goblfin.ElementData
   <AverageDegree>k__BackingField: 12
   <FireResistance>k__BackingField: 30
-  <FireHitPower>k__BackingField: 2
+  <FireHitPower>k__BackingField: 15
   <GoHotState>k__BackingField: 25
   <GoBurnState>k__BackingField: 65
   <GoFrozenState>k__BackingField: 0
   <EvaporationSpeed>k__BackingField: 15
-  <Electrify>k__BackingField: 50
+  <GoElectrifyState>k__BackingField: 0
   <ElectricalConduct>k__BackingField: 8
   <MaxHealth>k__BackingField: 200
   <IsLiquid>k__BackingField: 0

@@ -1,52 +1,62 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Project.Scripts.Core.ElementSysteme
 {
     public class VFXManager : MonoBehaviour
     {
-        public enum States
-        {
-            smoke,
-            fire,
-            electric,
-            normal,
-        }
-        [SerializeField] private GameObject smokeParticles;
-        [SerializeField] private GameObject fireParticles;
-        [SerializeField] private GameObject electricParticles;
+        public enum States { smoke, fire, electric, frozen, normal }
 
-        private void Start()
+        [System.Serializable]
+        public struct StateVisual
         {
-            smokeParticles.SetActive(false);
-            fireParticles.SetActive(false);
-            electricParticles.SetActive(false);
+            public States state;
+            public GameObject vfx;        
+            public Material material;   
         }
+
+        [SerializeField] private Renderer[] renderers;
+        [SerializeField] private StateVisual[] visuals;
+
+        private Material[][] originalMaterials;
+        private Dictionary<States, StateVisual> map;
+
+        private void Awake()
+        {
+            originalMaterials = new Material[renderers.Length][];
+            for (int i = 0; i < renderers.Length; i++)
+                originalMaterials[i] = renderers[i].sharedMaterials;
+
+            map = new Dictionary<States, StateVisual>();
+            foreach (StateVisual stateVisual in visuals) map[stateVisual.state] = stateVisual;
+        }
+
+        private void OnEnable() => VfxState(States.normal);
 
         public void VfxState(States state)
         {
-            switch (state)
-            {
-                case States.smoke:
-                    SetActiveVfx(smokeParticles);
-                    break;
-                case States.fire:
-                    SetActiveVfx(fireParticles);
-                    break;
-                case States.electric:
-                    SetActiveVfx(electricParticles);
-                    break;
-                case States.normal:
-                    SetActiveVfx(null);
-                    break;
-            }
+            foreach (var stateVisual in visuals)
+                if (stateVisual.vfx != null) stateVisual.vfx.SetActive(stateVisual.state == state);
+
+            ApplyMaterial(state);
         }
 
-        private void SetActiveVfx(GameObject activeTarget)
+        private void ApplyMaterial(States state)
         {
-            if (smokeParticles != null) smokeParticles.SetActive(smokeParticles == activeTarget);
-            if (fireParticles != null) fireParticles.SetActive(fireParticles == activeTarget);
-            if (electricParticles != null) electricParticles.SetActive(electricParticles == activeTarget);
+            bool hasOverride = map.TryGetValue(state, out var stateVisual) && stateVisual.material != null;
+
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                if (!hasOverride)
+                {
+                    renderers[i].sharedMaterials = originalMaterials[i];
+                    continue;
+                }
+
+                Material[] mats = new Material[originalMaterials[i].Length];
+                for (int m = 0; m < mats.Length; m++) mats[m] = stateVisual.material;
+                renderers[i].sharedMaterials = mats;
+            }
         }
     }
 }

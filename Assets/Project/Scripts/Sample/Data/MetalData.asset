@@ -15,11 +15,11 @@ MonoBehaviour:
   <AverageDegree>k__BackingField: 0
   <FireResistance>k__BackingField: 60.6
   <FireHitPower>k__BackingField: 0
-  <Hot>k__BackingField: 80
-  <Burn>k__BackingField: 99
-  <Frozen>k__BackingField: 55
-  <EvaporationSpeed>k__BackingField: 1
-  <Electrify>k__BackingField: 0.1
+  <GoHotState>k__BackingField: 25
+  <GoBurnState>k__BackingField: 65
+  <GoFrozenState>k__BackingField: 30
+  <EvaporationSpeed>k__BackingField: 5
+  <GoElectrifyState>k__BackingField: 0
   <ElectricalConduct>k__BackingField: 1
   <MaxHealth>k__BackingField: 10000
   <IsLiquid>k__BackingField: 1

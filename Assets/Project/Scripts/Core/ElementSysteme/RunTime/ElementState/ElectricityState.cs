@@ -19,13 +19,13 @@ namespace Project.Scripts.Core.ElementSysteme.RunTime.ElementState
 
         public void Update(ElementSimulation element)
         {
-            if (element.Electricity <= element.ElementData.Electrify)
+            if (element.Electricity <= element.ElementData.GoElectrifyState)
             {
                 element.ChangeState(new NormalState());
                 return;
             }
 
-            isElectrifying = element.Electricity >= element.ElementData.Electrify;
+            isElectrifying = element.Electricity >= element.ElementData.GoElectrifyState;
 
             if (Time.time >= nextPropagationTime)
             {

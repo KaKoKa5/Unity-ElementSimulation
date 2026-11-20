@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: WatherData
   m_EditorClassIdentifier: Assembly-CSharp::Project.Scripts.Core.ElementSysteme.RunTime.Data.ElementData
   <AverageDegree>k__BackingField: 0
-  <FireResistance>k__BackingField: 85
+  <FireResistance>k__BackingField: 14.7
   <FireHitPower>k__BackingField: 15
   <GoHotState>k__BackingField: 25
   <GoBurnState>k__BackingField: 65
-  <GoFrozenState>k__BackingField: 0
-  <EvaporationSpeed>k__BackingField: 0
-  <Electrify>k__BackingField: 15
+  <GoFrozenState>k__BackingField: 65
+  <EvaporationSpeed>k__BackingField: 50
+  <GoElectrifyState>k__BackingField: 25
   <ElectricalConduct>k__BackingField: 2
   <MaxHealth>k__BackingField: 100
   <IsLiquid>k__BackingField: 1
-  <BurnPrefab>k__BackingField: {fileID: 0}
+  <BurnPrefab>k__BackingField: {fileID: 428318617945242, guid: e9de4f7b8b507384f9b5e542191840cc, type: 3}
   <NormalPrefab>k__BackingField: {fileID: 0}
-  <FrozenPrefab>k__BackingField: {fileID: 0}
-  <PoolSize>k__BackingField: 8
+  <FrozenPrefab>k__BackingField: {fileID: 2543337058952950777, guid: 5eb784b1e30c9e246ae9098630558972, type: 3}
+  <PoolSize>k__BackingField: 1
